@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Staff {
+  id       Int     @id @default(autoincrement())
+  username String  @unique
+  password String
+  email    String  @unique
+  active   Boolean @default(true)
+}
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  fullname  String
+  email     String   @unique
+  Order     Order[]
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id                      Int                       @id @default(autoincrement())
+  name                    String
+  slug                    String                    @unique
+  price                   Float
+  discountPrice           Float
+  description             String?
+  thumbnail               String?
+  sku                     String                    @unique
+  images                  Json?
+  vendor                  Vendor                    @relation(fields: [vendorId], references: [id])
+  category                Category                  @relation(fields: [categoryId], references: [id])
+  vendorId                Int
+  categoryId              Int
+  DiscountCampaignProduct DiscountCampaignProduct[]
+  active                  Boolean                   @default(true)
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+}
+
+model Size {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  Variant     Variant[]
+}
+
+model Color {
+  id      Int       @id @default(autoincrement())
+  name    String
+  hexCode String
+  Variant Variant[]
+}
+
+model Variant {
+  id        Int    @id @default(autoincrement())
+  variantId String @unique
+  size      Size   @relation(fields: [sizeId], references: [id])
+  color     Color  @relation(fields: [colorId], references: [id])
+  productId Int
+  price     Float
+  inventory Int
+  sizeId    Int
+  colorId   Int
+}
+
+model Collection {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String
+  thumbnail   String
+  productIds  Json
+  active      Boolean @default(true)
+}
+
+model Vendor {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  thumbnail   String
+  Product     Product[]
+  active      Boolean   @default(true)
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  thumbnail   String
+  Product     Product[]
+  active      Boolean   @default(true)
+}
+
+enum DiscountCampaignType {
+  Percent
+  Fixed
+}
+
+enum DiscountCampaignStatus {
+  Outdate
+  Inprogress
+  Pending
+}
+
+model DiscountCampaign {
+  id                      Int                       @id @default(autoincrement())
+  value                   Float
+  type                    DiscountCampaignType
+  start                   DateTime
+  end                     DateTime
+  status                  DiscountCampaignStatus
+  DiscountCampaignProduct DiscountCampaignProduct[]
+  active                  Boolean                   @default(true)
+}
+
+model DiscountCampaignProduct {
+  id                 Int              @id @default(autoincrement())
+  discountCampaign   DiscountCampaign @relation(fields: [discountCampaignId], references: [id])
+  product            Product          @relation(fields: [productId], references: [id])
+  discountCampaignId Int
+  productId          Int
+}
+
+model Voucher {
+  id                 Int     @id @default(autoincrement())
+  name               String
+  code               String  @unique
+  description        String
+  minPrice           Float
+  minQuantityProduct Float
+  customerIds        Json
+  quantity           Int
+  active             Boolean
+  Order              Order[]
+}
+
+enum OrderStatus {
+  Packing
+  Shipping
+  Received
+  Cancel
+}
+
+model Order {
+  id            Int         @id @default(autoincrement())
+  customer      Customer    @relation(fields: [customerId], references: [id])
+  voucher       Voucher?    @relation(fields: [voucherId], references: [id])
+  customerId    Int
+  voucherId     Int?
+  status        OrderStatus
+  price         Float
+  discountPrice Float
+  products      Json
+}
