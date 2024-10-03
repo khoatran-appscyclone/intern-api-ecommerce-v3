@@ -45,32 +45,34 @@ model Product {
   active                  Boolean                   @default(true)
   createdAt               DateTime                  @default(now())
   updatedAt               DateTime                  @updatedAt
+  variant                 Variant[]
 }
 
 model Size {
   id          Int       @id @default(autoincrement())
   name        String
   description String
-  Variant     Variant[]
+  variant     Variant[]
 }
 
 model Color {
   id      Int       @id @default(autoincrement())
   name    String
   hexCode String
-  Variant Variant[]
+  variant Variant[]
 }
 
 model Variant {
-  id        Int    @id @default(autoincrement())
-  variantId String @unique
-  size      Size   @relation(fields: [sizeId], references: [id])
-  color     Color  @relation(fields: [colorId], references: [id])
-  productId Int
+  id        Int     @id @default(autoincrement())
+  variantId String  @unique
+  size      Size    @relation(fields: [sizeId], references: [id])
+  color     Color   @relation(fields: [colorId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
   price     Float
   inventory Int
   sizeId    Int
   colorId   Int
+  productId Int
 }
 
 model Collection {

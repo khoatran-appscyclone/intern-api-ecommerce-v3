@@ -1,19 +1,16 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { ProductService } from './product.service';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ObjectUtils } from 'src/utils/object';
-import { slugify } from 'src/utils/slugify';
-import { uuid } from 'src/utils/uuid';
-import { ApiTags } from '@nestjs/swagger';
+import { ProductService } from './product.service';
 
 @ApiTags('Product')
 @Controller('product')
@@ -22,11 +19,6 @@ export class ProductController {
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
-    // const productPayload = ObjectUtils.omit(createProductDto, ['variants']);
-    // // const slug = slugify()
-    // const sku = uuid()
-    // const slug = `${slugify(productPayload.name)}_${sku}`;
-    // return this.productService.create({...productPayload, });
     return this.productService.create(createProductDto);
   }
 

@@ -28,15 +28,18 @@ export class ProductService {
       variantId: uuid(),
       productId: product.id,
     }));
-    this.prisma.variant.createMany({ data: variants });
+    return this.prisma.variant.createMany({ data: variants });
   }
 
   findAll() {
-    // return this.prisma.product.findMany({})
+    return this.prisma.product.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} product`;
+    return this.prisma.product.findFirst({
+      where: { id },
+      include: { variant: true },
+    });
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
