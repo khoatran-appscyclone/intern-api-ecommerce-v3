@@ -3,13 +3,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 import * as bcrypt from 'bcrypt';
+import { hashPassword } from 'src/utils/hass-password';
 
 @Injectable()
 export class StaffService {
   constructor(private prisma: PrismaService) {}
 
   async create(createStaffDto: CreateStaffDto) {
-    const hashedPassword = await bcrypt.hash(createStaffDto.password, 10);
+    const hashedPassword = await hashPassword(createStaffDto.password);
     return this.prisma.staff.create({
       data: {
         ...createStaffDto,
@@ -53,8 +54,11 @@ export class StaffService {
   }
 
   async remove(id: number) {
-    return this.prisma.staff.delete({
+    return this.prisma.staff.update({
       where: { id },
+      data: {
+        active: false,
+      }
     });
   }
 }

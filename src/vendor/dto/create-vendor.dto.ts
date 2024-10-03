@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsString, IsUrl } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateVendorDto {
@@ -20,6 +20,6 @@ export class CreateVendorDto {
     description: 'The thumbnail URL for the vendor',
     example: 'https://example.com/images/vendor-thumbnail.jpg',
   })
-  @IsString()
+  @IsUrl()
   thumbnail: string;
 }
