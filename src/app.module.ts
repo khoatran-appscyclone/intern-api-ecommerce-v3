@@ -12,9 +12,18 @@ import { DiscountCampaignModule } from './discount-campaign/discount-campaign.mo
 import { VariantOptionsModule } from './variant-options/variant-options.module';
 import { ProductModule } from './product/product.module';
 import { InventoryModule } from './inventory/inventory.module';
+import { UploadModule } from './upload/upload.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './shared/config/configuration';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ load: [configuration] }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'images'), // <-- path to the static files
+    }),
     StaffModule,
     CustomerModule,
     CollectionModule,
@@ -26,6 +35,7 @@ import { InventoryModule } from './inventory/inventory.module';
     VariantOptionsModule,
     ProductModule,
     InventoryModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
