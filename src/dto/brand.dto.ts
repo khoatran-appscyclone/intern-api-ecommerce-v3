@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
 export class CreateBrandDTO {
-  @ApiProperty()
+  @ApiProperty({ example: 'Gucci' })
   @IsString()
   name: string;
 }

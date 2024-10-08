@@ -16,12 +16,16 @@ model Product {
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
   image              Image[]
-  category           Category?            @relation(fields: [categoryId], references: [id])
-  categoryId         Int?
-  brand              Brand?               @relation(fields: [brandId], references: [id])
-  brandId            Int?
+  category           Category            @relation(fields: [categoryId], references: [id])
+  categoryId         Int
+  brand              Brand               @relation(fields: [brandId], references: [id])
+  brandId            Int
   productCollections ProductCollections[]
   review             Review[]
+  rating Int?
+  thumbnail String?
+  images Json?
+  slug       String      @unique
 }
 
 model Variant {
@@ -39,6 +43,7 @@ model Variant {
   updatedAt DateTime    @updatedAt
   image     Image[]
   orderItem OrderItem[]
+  thumbnail String?
 
   @@unique([productId, colorId, sizeId])
 }

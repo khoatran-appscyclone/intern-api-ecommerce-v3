@@ -12,6 +12,11 @@ import { EmployeeModule } from './employee.module';
 import { CollectionModule } from './collection.module';
 import { OrderModule } from './order.module';
 import { ReviewModule } from './review.module';
+import { ProductModule } from './product.module';
+import { VariantOptionModule } from './variant-option.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { OrderCronService } from 'src/cron/order.cron';
+import { PrismaService } from 'src/services/prisma.service';
 
 @Module({
   imports: [
@@ -19,6 +24,7 @@ import { ReviewModule } from './review.module';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'images'),
     }),
+    ScheduleModule.forRoot(),
     BrandModule,
     CategoryModule,
     CustomerModule,
@@ -26,8 +32,10 @@ import { ReviewModule } from './review.module';
     CollectionModule,
     OrderModule,
     ReviewModule,
+    ProductModule,
+    VariantOptionModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, OrderCronService, PrismaService],
 })
 export class AppModule {}

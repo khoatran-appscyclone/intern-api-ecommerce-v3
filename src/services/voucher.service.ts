@@ -27,4 +27,11 @@ export class VoucherService {
   remove(id: number) {
     return this.prismaService.voucher.delete({ where: { id } });
   }
+
+  async usage(id: number) {
+    return await this.prismaService.voucher.update({
+      where: { id },
+      data: { usageLimit: { decrement: 1 } },
+    });
+  }
 }
