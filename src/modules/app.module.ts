@@ -17,6 +17,7 @@ import { VariantOptionModule } from './variant-option.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { OrderCronService } from 'src/cron/order.cron';
 import { PrismaService } from 'src/services/prisma.service';
+import { VariantModule } from './variant.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { PrismaService } from 'src/services/prisma.service';
     ReviewModule,
     ProductModule,
     VariantOptionModule,
+    VariantModule,
   ],
   controllers: [AppController],
   providers: [AppService, OrderCronService, PrismaService],

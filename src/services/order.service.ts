@@ -7,7 +7,6 @@ import { VoucherService } from './voucher.service';
 export class OrderService {
   constructor(
     private prismaService: PrismaService,
-    private voucherService: VoucherService,
   ) {}
 
   createOrderNumber(customerId: number) {
