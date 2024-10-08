@@ -26,6 +26,7 @@ model Product {
   thumbnail String?
   images Json?
   slug       String      @unique
+  reviewCount Int?
 }
 
 model Variant {

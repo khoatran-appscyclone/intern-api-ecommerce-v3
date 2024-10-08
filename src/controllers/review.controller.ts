@@ -21,23 +21,23 @@ export class ReviewController {
     return this.reviewService.create(createReviewDto);
   }
 
-  @Get()
-  findAll() {
-    return this.reviewService.findAll();
+  // @Get()
+  // findAll() {
+  //   return this.reviewService.findAll();
+  // }
+
+  @Get(':productId')
+  findOne(@Param('productId') productId: string) {
+    return this.reviewService.findOne(+productId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reviewService.findOne(+id);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateReviewDto: UpdateReviewDto) {
+  //   return this.reviewService.update(+id, updateReviewDto);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReviewDto: UpdateReviewDto) {
-    return this.reviewService.update(+id, updateReviewDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reviewService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.reviewService.remove(+id);
+  // }
 }
